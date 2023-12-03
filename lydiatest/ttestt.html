@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="description" content="QR Code scanner">
+        <meta name="keywords" content="qrcode,qr code,scanner,barcode,javascript">
+        <meta name="language" content="English">
+        <meta name="copyright" content="Lazar Laszlo (c) 2011">
+        <meta name="Revisit-After" content="1 Days">
+        <meta name="robots" content="index, follow">
+        <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Web QR</title>
+        <style type="text/css">
+            body{
+                width:100%;
+                text-align:center;
+            }
+            img{
+                border:0;
+            }
+            #main{
+                margin: 15px auto;
+                background:#151938;
+                overflow: auto;
+                width: 100%;
+            }
+            #header{
+                background:#151938;
+                margin-bottom:15px;
+            }
+            #mainbody{
+                background: #151938;
+                width:100%;
+                display:none;
+            }
+            #footer{
+                background:#151938;
+            }
+            #v{
+                width:320px;
+                height:240px;
+            }
+            #qr-canvas{
+                display:none;
+            }
+            #qrfile{
+                width:320px;
+                height:240px;
+            }
+            #mp1{
+                text-align:center;
+                font-size:35px;
+                color: white;
+            }
+            #imghelp{
+                position:relative;
+                left:0px;
+                top:-160px;
+                z-index:100;
+                font:18px arial,sans-serif;
+                background:#f0f0f0;
+                margin-left:35px;
+                margin-right:35px;
+                padding-top:10px;
+                padding-bottom:10px;
+                border-radius:20px;
+            }
+            .selector{
+                margin:0;
+                padding:0;
+                cursor:pointer;
+                margin-bottom:-5px;
+            }
+            #outdiv
+            {
+                width:320px;
+                height:240px;
+                border: solid;
+                border-width: 3px 3px 3px 3px;
+            }
+            #result{
+                border: solid;
+                border-width: 1px 1px 1px 1px;
+                padding:20px;
+                width:70%;
+            }
+            
+            ul{
+                margin-bottom:0;
+                margin-right:40px;
+            }
+            li{
+                display:inline;
+                padding-right: 0.5em;
+                padding-left: 0.5em;
+                font-weight: bold;
+                border-right: 1px solid #333333;
+            }
+            li a{
+                text-decoration: none;
+                color: lightgray;
+            }
+            
+            #footer a{
+                color: lightgray;
+            }
+            .tsel{
+                padding:0;
+            }
+        </style>
+        <script src="https://pagead2.googlesyndication.com/pagead/managed/js/adsense/m202307170101/reactive_library_fy2021.js"></script>
+        <script src="https://partner.googleadservices.com/gampad/cookie.js?domain=webqr.com&amp;callback=_gfp_s_&amp;client=ca-pub-8418802408648518"></script>
+        <script src="https://pagead2.googlesyndication.com/pagead/managed/js/adsense/m202307170101/show_ads_impl_fy2021.js" id="google_shimpl"></script>
+        <script src="https://apis.google.com/_/scs/abc-static/_/js/k=gapi.lb.zh_TW.B-fLRokA8c8.O/m=auth/exm=plusone/rt=j/sv=1/d=1/ed=1/rs=AHpOoo94LzUy_OLEc7VXs3Yox9X7OMobiA/cb=gapi.loaded_1?le=scs" async=""></script>
+        <script src="https://apis.google.com/_/scs/abc-static/_/js/k=gapi.lb.zh_TW.B-fLRokA8c8.O/m=plusone/rt=j/sv=1/d=1/ed=1/rs=AHpOoo94LzUy_OLEc7VXs3Yox9X7OMobiA/cb=gapi.loaded_0?le=scs" async=""></script>
+        <script type="text/javascript" src="llqrcode.js"></script>
+        <script type="text/javascript" src="https://apis.google.com/js/plusone.js" gapi_processed="true"></script>
+        <script type="text/javascript" src="webqr.js"></script>
+        <!-- Google tag (gtag.js) -->
+        <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-GWM3JQZB95"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+        
+            gtag('config', 'G-GWM3JQZB95');
+        </script>
+        <meta http-equiv="origin-trial" content="A7CQXglZzTrThjGTBEn1rWTxHOEtkWivwzgea+NjyardrwlieSjVuyG44PkYgIPGs8Q9svD8sF3Yedn0BBBjXAkAAACFeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==">
+        <meta http-equiv="origin-trial" content="A3vKT9yxRPjmXN3DpIiz58f5JykcWHjUo/W7hvmtjgh9jPpQgem9VbADiNovG8NkO6mRmk70Kex8/KUqAYWVWAEAAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==">
+        <meta http-equiv="origin-trial" content="A4A26Ymj79UVY7C7JGUS4BG1s7MdcDokAQf/RP0paks+RoTYbXHxceT/5L4iKcsleFCngi75YfNRGW2+SpVv1ggAAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiUHJpdmFjeVNhbmRib3hBZHNBUElzIiwiZXhwaXJ5IjoxNjk1MTY3OTk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ==">
+        <meta http-equiv="origin-trial" content="As0hBNJ8h++fNYlkq8cTye2qDLyom8NddByiVytXGGD0YVE+2CEuTCpqXMDxdhOMILKoaiaYifwEvCRlJ/9GcQ8AAAB8eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3MTk1MzI3OTksImlzU3ViZG9tYWluIjp0cnVlfQ==">
+        <meta http-equiv="origin-trial" content="AgRYsXo24ypxC89CJanC+JgEmraCCBebKl8ZmG7Tj5oJNx0cmH0NtNRZs3NB5ubhpbX/bIt7l2zJOSyO64NGmwMAAACCeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiV2ViVmlld1hSZXF1ZXN0ZWRXaXRoRGVwcmVjYXRpb24iLCJleHBpcnkiOjE3MTk1MzI3OTksImlzU3ViZG9tYWluIjp0cnVlfQ==">
+        <link rel="preload" href="https://adservice.google.com/adsid/integrator.js?domain=webqr.com" as="script">
+        <script type="text/javascript" src="https://adservice.google.com/adsid/integrator.js?domain=webqr.com"></script>
+    </head>
+    <body aria-hidden="false" style="padding: 0px 0px 120px;">
+        
+        <div id="main">
+            <div id="header">
+                <div style="position:relative;top:+20px;left:0px;">
+                    <div id="___plusone_0" style="position: absolute; width: 450px; left: -10000px;">
+                        <iframe ng-non-bindable="" frameborder="0" hspace="0" marginheight="0" marginwidth="0" scrolling="no" style="position:absolute;top:-10000px;width:450px;margin:0px;border-style:none" tabindex="0" vspace="0" width="100%" id="I0_1689919708717" name="I0_1689919708717" src="https://apis.google.com/u/0/se/0/_/+1/fastbutton?usegapi=1&amp;size=medium&amp;origin=https%3A%2F%2Fwebqr.com&amp;url=https%3A%2F%2Fwebqr.com%2F&amp;gsrc=3p&amp;ic=1&amp;jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.zh_TW.B-fLRokA8c8.O%2Fd%3D1%2Frs%3DAHpOoo94LzUy_OLEc7VXs3Yox9X7OMobiA%2Fm%3D__features__#_methods=onPlusOne%2C_ready%2C_close%2C_open%2C_resizeMe%2C_renderstart%2Concircled%2Cdrefresh%2Cerefresh&amp;id=I0_1689919708717&amp;_gfid=I0_1689919708717&amp;parent=https%3A%2F%2Fwebqr.com&amp;pfname=&amp;rpctoken=92036776" data-gapiattached="true">
+                            <html>
+                                <head></head>
+                                <body marginwidth="0" marginheight="0"></body>
+                                </html>
+                            </iframe>
+                    </div>
+                    <g:plusone size="medium" data-gapiscan="true" data-onload="true" data-gapistub="true"></g:plusone>
+                </div>
+                <p id="mp1">QR Code scanner</p>
+                <ul>
+                    <li>
+                        <a href="index.html">Scan</a>
+                    </li>
+                    <!--
+                    <li>
+                        <a href="create.html">Create</a>
+                    </li>
+                    <li>
+                        <a href="about.html">About</a>
+                    </li>
+                    <li style="border: medium none;">
+                        <a href="contact.html">Contact</a>
+                    </li>
+                    -->
+                </ul>
+            </div>
+            <div id="mainbody" style="display: inline;">
+                <div class="btn2_1">
+                    <a href="index.html"><img src="img/HomeW_95x95.png"></a>
+                </div>
+                <table class="tsel" border="0" width="100%">
+                    <tbody>
+                        <tr>
+                            <td valign="top" align="center" width="50%">
+                                <table class="tsel" border="0">
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <img class="selector" id="webcamimg" src="img/video_32.png" onclick="setwebcam()" align="left" style="opacity: 1;">
+                                            </td>
+                                            <td>
+                                                <img class="selector" id="qrimg" src="img/Camera_32.png" onclick="setimg()" align="right" style="opacity: 0.2;">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" align="center">
+                                                <div id="outdiv">
+                                                    <video id="v" autoplay=""></video>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" align="center">
+                                <img src="img/check_32.png">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" align="center" style="color: white;">
+                                <div id="result">- scanning - </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <script async="" src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                <!-- webqr_2016 -->
+                <!--
+                <ins class="adsbygoogle" style="display: block; height: 280px;" data-ad-client="ca-pub-8418802408648518" data-ad-slot="2527990541" data-ad-format="auto" data-adsbygoogle-status="done" data-ad-status="filled">
+                    <div id="aswift_0_host" tabindex="0" title="Advertisement" aria-label="Advertisement" style="border: none; height: 280px; width: 1200px; margin: 0px; padding: 0px; position: relative; visibility: visible; background-color: transparent; display: inline-block; overflow: visible;">
+                        <iframe id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;border:0;width:1200px;height:280px;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="1200" height="280" frameborder="0" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" src="https://googleads.g.doubleclick.net/pagead/ads?client=ca-pub-8418802408648518&amp;output=html&amp;h=280&amp;slotname=2527990541&amp;adk=2224833111&amp;adf=2330321421&amp;pi=t.ma~as.2527990541&amp;w=1200&amp;fwrn=4&amp;fwrnh=100&amp;lmt=1685644416&amp;rafmt=1&amp;format=1200x280&amp;url=https%3A%2F%2Fwebqr.com%2F&amp;fwr=0&amp;rpe=1&amp;resp_fmts=3&amp;wgl=1&amp;uach=WyJXaW5kb3dzIiwiMTAuMC4wIiwieDg2IiwiIiwiMTE1LjAuNTc5MC45OCIsW10sMCxudWxsLCI2NCIsW1siTm90L0EpQnJhbmQiLCI5OS4wLjAuMCJdLFsiR29vZ2xlIENocm9tZSIsIjExNS4wLjU3OTAuOTgiXSxbIkNocm9taXVtIiwiMTE1LjAuNTc5MC45OCJdXSwwXQ..&amp;dt=1689919445393&amp;bpp=7&amp;bdt=2096&amp;idt=177&amp;shv=r20230719&amp;mjsv=m202307170101&amp;ptt=9&amp;saldr=aa&amp;abxe=1&amp;correlator=8770997607707&amp;frm=20&amp;pv=2&amp;ga_vid=734248109.1689919444&amp;ga_sid=1689919446&amp;ga_hid=314251090&amp;ga_fc=1&amp;u_tz=480&amp;u_his=1&amp;u_h=864&amp;u_w=1536&amp;u_ah=834&amp;u_aw=1536&amp;u_cd=24&amp;u_sd=1.25&amp;dmc=8&amp;adx=168&amp;ady=567&amp;biw=1519&amp;bih=709&amp;scr_x=0&amp;scr_y=0&amp;eid=44759875%2C44759926%2C44759837%2C44788442%2C44796826&amp;oid=2&amp;pvsid=1578731899690671&amp;tmod=687325595&amp;uas=0&amp;nvt=1&amp;fc=896&amp;brdim=0%2C0%2C0%2C0%2C1536%2C0%2C1536%2C834%2C1536%2C726&amp;vis=1&amp;rsz=%7C%7CEe%7C&amp;abl=CS&amp;pfx=0&amp;fu=1152&amp;bc=31&amp;ifi=1&amp;uci=a!1&amp;fsb=1&amp;xpc=bpKyHBdFrL&amp;p=https%3A//webqr.com&amp;dtd=264" data-google-container-id="a!1" data-google-query-id="CPvDjcKQn4ADFVdeDwIdgoMG-A" data-load-complete="true"></iframe>
+                    </div>
+                </ins>
+                <script> (adsbygoogle = window.adsbygoogle || []).push({}); </script>
+                -->
+            </div>&nbsp;
+            <!--
+            <div id="footer">
+                <img style="position:relative;top:0px;left:0px;margin:0;padding:0;" src="comodo_secure_seal_100x85_transp.png">
+                <h5 align="center">
+                    Copyright © 2011 
+                    <a target="_blank" href="http://www.lazarsoft.info">Lazar Laszlo</a>
+                </h5>
+            </div>
+            -->
+            
+        </div>
+        <canvas id="qr-canvas" width="800" height="600" style="width: 800px; height: 600px;"></canvas>
+        <script type="text/javascript">load();</script>
+    </body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>測試網頁QRcode掃描</title>
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.2.1/html5-qrcode.min.js"></script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-44290897-9"></script>
+<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-44290897-9');
+</script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="bg">
+    <img src="img/MainBack_1920x1080.png">
+</div>
+<h2>請掃描QRcode</h2>
+<div class="container">
+<div class="row">
+	<div class="col-2 d-none d-md-block"></div>
+	<div id="qr_div" class="col-8 text-center">
+		<div id="qr-reader" style="width:80%"; position: relative></div>
+	<div id="qr-reader-results"></div>
+</div>
+<div class="col-2 d-none d-md-block"></div>
+<div id="copy_div" class="col-12 mt-3 text-center" style="display: none;">
+<textarea name="showtext"
+    rows="5"
+    cols="60"
+    required
+    id="qrcode">
+</textarea>
+<input type="text" id="qrcode" style="word-wrap: normal;">
+<button onclick="copyToClipBoard()">複製</button>
+<button onclick="re_html5qrcode()">再掃一次</button>
+<button onclick="BackToHome()">回首頁</button>
+</div>
+</div>
+</div>
+<div class="btn2_1">
+	<a href="index.html"><img src="img/HomeW_95x95.png"></a>
+</div>
+<script type="text/javascript">
+
+		// html5QrCode
+			const html5QrCode = new Html5Qrcode("qr-reader");
+			const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+				/* handle success */
+				if ( decodedText != '' ) {
+					$('#qrcode').val(decodedText);
+					html5QrCode.stop();
+					$('#qr_div').hide();
+					$('#copy_div').show();
+					gtag('event', 'ues', {'event_category': 'tool','event_label': 'QRcode','value': 1 });
+				}
+			};
+			const config = { fps: 100, qrbox: { width: 500, height: 500 }, aspectRatio: 1, formatsToSupport: [Html5QrcodeSupportedFormats.EAN_13] };
+			html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+
+			setTimeout(function () {
+				html5QrCode.applyVideoConstraints({
+					focusMode: "continuous",
+					advanced: [{ zoom: 2.0 }],
+				});
+			}, 2000);
+
+		function copyToClipBoard() {
+			var content = document.getElementById('qrcode');
+			content.select();
+			document.execCommand('copy');
+			alert("已複製!");
+		}
+
+		function re_html5qrcode() {
+			$('#qrcode').val('');
+			$('#qr_div').show();
+			$('#copy_div').hide();
+
+			const config = { fps: 100, qrbox: { width: 500, height: 500 }, aspectRatio: 1, formatsToSupport: [Html5QrcodeSupportedFormats.EAN_13] };
+			html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+			
+			setTimeout(function () {
+				html5QrCode.applyVideoConstraints({
+					focusMode: "continuous",
+					advanced: [{ zoom: 2.0 }],
+				});
+			}, 2000);
+		}
+	</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v52afc6f149f6479b8c77fa569edb01181681764108816" integrity="sha512-jGCTpDpBAYDGNYR5ztKt4BQPGef1P0giN6ZGVUi835kFF88FOmmn8jBQWNgrNd8g/Yu421NdgWhwQoaOPFflDw==" data-cf-beacon='{"rayId":"7e2eff33d8e01031","version":"2023.4.0","r":1,"token":"b354261e40684f6887bf0a21f71b2dda","si":100}' crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!--針對手機或pad螢幕解析度優化-->
+    <link rel="Shortcut Icon" type="image/x-icon" href="img/favicon.ico" />
+    <title>企業數位轉型－綠色產品雙認證解決方案</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="bg">
+        <img src="img/MainB_1920x1080.png">
+    </div>
+    <div class="logo">
+        <img src="img/logoo.png">
+    </div>
+    <h1_1>企業數位轉型</h1_1>
+    <h1_2>綠色產品雙認證解決方案</h1_2>
+    
+    <div class="btn1_1">
+        <a href="http://192.168.1.2:10200/main" target="_blank"><img src="img/HomeW_95x95.png"></a>
+    </div>
+    <div class="btn1_2">
+        <a href="TestQR.html" onclick="openLink(event)"><img src="img/qrcode_95x95.png"></a>
+    </div>
+
+    <script>
+        function openLink(event) {
+            event.preventDefault(); // 阻止默認的連結行為
+    
+            // 獲取連結的 href
+            var linkHref = event.target.parentElement.href;
+    
+            // 使用 window.open 開啟新的視窗
+            window.open(linkHref, '_self'); // '_self' 表示在當前窗口中打開
+        }
+    </script>
+    <!--
+    <div class="btn1_3">
+        <a href="qrcodeTest.htmlTestQR.html"><img src="img/qrcode_95x95.png"></a>
+    </div>
+    <div class="btn1_4">
+        <a href="ttestt.html"><img src="img/qrcode_95x95.png"></a>
+    </div> 
+    -->
+    
+    <!--
+    <p>段落</p>
+    <p>內容</p>
+    <a target="_blank" title="開啟Google" href="https://www.google.com">連到Google</a>
+    <input type="image" src="img/HomeW_95x95.png"  height="95" width="95"/> 
+    <input type="button" value="我是按鈕" style="width:120px;height:40px;border:2px blue none;background-color:pink;">
+    -->
+   
+    
+</body>
+</html>

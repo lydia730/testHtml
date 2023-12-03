@@ -1,0 +1,136 @@
+body{
+    width:100%;
+    text-align:center;
+}
+
+.bg{
+    background:#151938;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -999;
+}
+#main{
+    background:#151938;
+    overflow: auto;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+#header{
+    background:#151938;
+    /*margin-bottom:15px;*/
+}
+#mainbody{
+    background: #151938;
+    width:100%;
+    display:none;
+}
+#footer{
+    background:#151938;
+}
+#v{
+    width:480px;
+    height:360px;
+}
+#qr-canvas{
+    display:none;
+}
+#qrfile{
+    width:480px;
+    height:360px;
+}
+.logo{
+    position: fixed;
+    left: 50px;
+    top: 40px;
+}
+#mp1{
+    text-align:center;
+    font-size:26px;
+    color:darkgray;
+}
+#imghelp{
+    position:relative;
+    left:0px;
+    top:-160px;
+    z-index:100;
+    font:18px arial,sans-serif;
+    background:#f0f0f0;
+    margin-left:35px;
+    margin-right:35px;
+    padding-top:10px;
+    padding-bottom:10px;
+    border-radius:20px;
+}
+.selector{
+    margin:0;
+    padding:0;
+    cursor:pointer;
+    margin-bottom:-5px;
+}
+#outdiv
+{
+    width:480px;
+    height:360px;
+    border: solid;
+    border-width: 3px 3px 3px 3px;
+    border-color: black;
+}
+.outdivv
+{
+    width:480px;
+    height:360px;
+    border: solid;
+    padding:10px;
+    font-size:22px;
+    color:darkgray;
+    text-align: left;
+}
+
+#result{
+    border: solid;
+    border-width: 1px 1px 1px 1px;
+    padding:20px;
+    width:70%;
+}            
+ul{
+    margin-bottom:10px;
+    margin-right:40px;
+}
+li{
+    display:inline;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+    /*font-weight: bold;*/
+    border-right: 2px solid #333333;
+}
+li a{
+    text-decoration: none;
+    font-size:24px;
+    color:white;
+}
+            
+#footer a{
+    color: darkgray;
+}
+.tsel{
+    padding:0;
+}
+
+/*.button{
+    background-color: darkgray;
+    text-align: center;
+    color: #151938;
+    font-size: 16px;
+    margin:5px 5px;
+}*/
+/*br{
+    border-color: black;
+}
+br b{
+    color: darkgray;
+    font-size:10px;
+}*/

@@ -1,0 +1,71 @@
+.bg{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: -999;
+}
+.bg img{
+    background-size: cover;
+}
+.logo{
+    position: fixed;
+    left: 50px;
+    top: 50px;
+}
+.btn1_1{
+    position: fixed;
+    left: 60px;
+    top: 400px;
+}
+.btn1_2{
+    position: fixed;
+    left: 180px;
+    top: 400px;
+}
+.btn1_3{
+    position: fixed;
+    left: 120px;
+    top: 400px;
+}
+.btn1_4{
+    position: fixed;
+    left: 120px;
+    top: 520px;
+}
+.btn2_1{
+    position: fixed;
+    left: 100px;
+    top: 200px;
+}
+
+h1_1{
+    color:orange;
+    font-size: 36px;
+    position: fixed;
+    left: 50px;
+    top: 150px;
+}
+h1_2{
+    color:white;
+    font-size: 60px;
+    position: fixed;
+    left: 50px;
+    top: 185px;
+}
+h2{
+    color:white;
+    position: fixed;
+    left: 500px;
+    top: 10px;
+}
+a{
+    color:white;
+    font-size: 14px;
+}
+
+p{
+    color:white;
+    font-size: 14px;
+}
